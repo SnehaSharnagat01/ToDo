@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 
-const postSchema = new mongoose.Schema(
+const noteSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      minLength: 15,
+      minLength: 2,
+      maxLength: 15,
       required: [true,"Title Is Required"],
     },
     description: {
@@ -17,5 +18,5 @@ const postSchema = new mongoose.Schema(
   },
 );
 
-let PostModel = mongoose.model("posts",postSchema)
-export default PostModel
+let NoteModel = mongoose.model("notes",noteSchema)
+export default NoteModel
