@@ -1,8 +1,12 @@
-import express from 'express'
-import { createPostController } from '../controllers/post.controller.js'
+import express from "express";
+import {
+  createNoteController,
+  ReadNotesController,
+} from "../controllers/post.controller.js";
 
-let route  = express.Router()
+let route = express.Router();
 
-route.post("/createnote", createPostController)
+route.post("/createnote", createNoteController);
+route.get("/allnotes", ReadNotesController);
 
-export default route
+export default route;

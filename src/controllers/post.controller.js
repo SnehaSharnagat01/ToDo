@@ -1,13 +1,25 @@
 import NoteModel from "../models/post.model.js";
 
-export let createPostController = async (req, res) => {
-    // console.log(req.body);
-    
+export let createNoteController = async (req, res) => {
+//   console.log(req.body);
+
   try {
     let { title, description } = req.body;
     if (!title || !description) {
       return res.status(400).json({
         message: "All Fields Are required!",
+      });
+    }
+
+    if (title.length < 3) {
+      return res.status(400).json({
+        message: "Title length must have 3 characters",
+      });
+    }
+
+    if (description.length < 10) {
+      return res.status(400).json({
+        message: "description length must have 10 characters",
       });
     }
 
@@ -27,3 +39,31 @@ export let createPostController = async (req, res) => {
     });
   }
 };
+
+export let ReadNotesController = async (req,res)=>{
+    try {
+         let allNotes = await NoteModel.find()
+
+     return res.status(200).json({
+        message:"Notes Fetches Successfully",
+        allNotes
+     })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+        message:"Internal Server Error",
+        })           
+    }
+}
+
+export let ReadNotesController = async (req,res)=>{
+
+    try {
+        
+    } catch (error) {
+         console.log(error);
+        res.status(500).json({
+        message:"Internal Server Error",
+        })  
+    }
+}
