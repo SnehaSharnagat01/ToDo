@@ -1,7 +1,7 @@
 import NoteModel from "../models/post.model.js";
 
 export let createNoteController = async (req, res) => {
-//   console.log(req.body);
+  //   console.log(req.body);
 
   try {
     let { title, description } = req.body;
@@ -40,30 +40,50 @@ export let createNoteController = async (req, res) => {
   }
 };
 
-export let ReadNotesController = async (req,res)=>{
-    try {
-         let allNotes = await NoteModel.find()
+export let ReadNotesController = async (req, res) => {
+  try {
+    let allNotes = await NoteModel.find();
 
-     return res.status(200).json({
-        message:"Notes Fetches Successfully",
-        allNotes
-     })
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-        message:"Internal Server Error",
-        })           
+    return res.status(200).json({
+      message: "Notes Fetches Successfully",
+      allNotes,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+};
+
+export let UpdateNotesController = async (req, res) => {
+  try {
+    let { id } = req.params;
+    let { description } = req.body;
+
+    if (!description)
+      return res.status(400).json({ message: "description is required!" });
+
+    let note = await NoteModel.findById(id);
+    if (!note) {
+      return res.status(400).json({
+        message: "Note not found",
+      });
     }
-}
 
-export let ReadNotesController = async (req,res)=>{
+    console.log(note);
+    note.description = description;
+    await note.save();
 
-    try {
-        
-    } catch (error) {
-         console.log(error);
-        res.status(500).json({
-        message:"Internal Server Error",
-        })  
-    }
-}
+    res.status(200).json({
+      message: "Note updated Successfully!",
+      note
+
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+};
